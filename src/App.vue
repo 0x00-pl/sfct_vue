@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import config from './config.js'
+  import config from '../config.js'
   import index from './index.vue'
   import login_cb from './login_cb.vue'
 
@@ -45,8 +45,9 @@ export default {
         },
         login(){
             let cb = encodeURIComponent(new URL('#login_cb', window.location).href)
-            let next = new URL('/oauth0?cb='+cb, window.location.protocol+config.api_server).href
-            window.location.assign(next)
+            let next = new URL('/oauth0', window.location.protocol+config.api_server)
+            next.searchParams.append('cb', cb)
+            window.location.assign(next.href)
         },
         logout(){
             window.localStorage.removeItem('token')
