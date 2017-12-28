@@ -29,6 +29,7 @@
   import config from '../config.js'
   import index from './index.vue'
   import login_cb from './login_cb.vue'
+  import chapter from './chapter.vue'
 
 export default {
     name: 'app',
@@ -41,13 +42,15 @@ export default {
     },
     methods: {
         route(s){
-            return s.substr(1)
+          console.log('route to: ', s, s.substr(1))
+          return s.substr(1)
         },
         login(){
-            let cb = encodeURIComponent(new URL('#login_cb', window.location).href)
-            let next = new URL('/oauth0', window.location.protocol+config.api_server)
-            next.searchParams.append('cb', cb)
-            window.location.assign(next.href)
+          let cb = encodeURIComponent(new URL('#login_cb', window.location).href)
+          let next = new URL('/oauth0', config.api_server)
+          next.searchParams.append('cb', cb)
+          console.log('href', next.href)
+          window.location.assign(next.href)
         },
         logout(){
             window.localStorage.removeItem('token')
@@ -66,16 +69,19 @@ export default {
         window.onhashchange = () => {
             this.location = this.route(window.location.hash)
         }
-        if(window.location.hash == '#login_cb'){
-            return
+        window.onhashchange()
+        if(window.location.hash == ''){
+          window.location.assign('#index')
+        }else if(window.location.hash == '#login_cb'){
         } else {
-            window.location.hash = '#index'
-            console.log(this.get_token())
+            this.$root.token = this.get_token()
+            console.log(this.$root.token)
         }
     },
     components: {
         index,
-        login_cb
+        login_cb,
+        chapter
     }
 }
 </script>
