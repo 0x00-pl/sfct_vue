@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div>index</div>
+  <div>{{meta_info.book_name}}</div>
   <div class="content">
     <div v-for="i in chapter_list" :key="i.id"
     class="chapter_item">
@@ -14,17 +14,20 @@
 import api from './api'
 
 export default {
-  data() {
+  data(){
     return {
-      chapter_list: [{'id':0, name:'no name', href:'?chapter_id=${i.id}#chapter'}]
+      book_id: '0',
+      meta_info: {book_name:'sf'},
+      chapter_list: [{'id':0, name:'no name', href:'?book_id=sfct&chapter_id=0#chapter'}]
     }
   },
   methods: {
-    load_chapters(){
-      api('/chapter_list', 'sfct')
+    load_book(){
+      api('/book', this.book_id)
       .then(t=>JSON.parse(t))
       .then(j=>{
-        this.chapter_list = j.map(i=>{
+        this.meta_info = j.meta_info
+        this.chapter_list = j.chapter_list.map(i=>{
           i.href=`?chapter_id=${i.id}#chapter`
           return i
         })
@@ -33,7 +36,7 @@ export default {
     }
   },
   created(){
-    this.load_chapters()
+    // TODO: this.load_book()
   }
 }
 </script>

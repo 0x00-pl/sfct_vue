@@ -27,7 +27,7 @@
 
 <script>
   import config from '../config.js'
-  import index from './index.vue'
+  import book from './book.vue'
   import login_cb from './login_cb.vue'
   import chapter from './chapter.vue'
 
@@ -71,7 +71,7 @@ export default {
         }
         window.onhashchange()
         if(window.location.hash == ''){
-          window.location.assign('#index')
+          window.location.assign('#book')
         }else if(window.location.hash == '#login_cb'){
         } else {
             this.$root.token = this.get_token()
@@ -79,7 +79,7 @@ export default {
         }
     },
     components: {
-        index,
+        book,
         login_cb,
         chapter
     }
