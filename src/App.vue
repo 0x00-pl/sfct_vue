@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="header">{{login_name}}</div>
-  <div class="content">
+  <div class="container">
     <component :is="location"></component>
   </div>
   <div class="footer"></div>
@@ -26,17 +26,18 @@
 </template>
 
 <script>
-  import config from '../config.js'
-  import book from './book.vue'
-  import login_cb from './login_cb.vue'
-  import chapter from './chapter.vue'
+import config from '../config.js'
+import api from './api'
+import book from './book.vue'
+import login_cb from './login_cb.vue'
+import chapter from './chapter.vue'
 
 export default {
     name: 'app',
     data () {
         return {
             location: '',
-            login_name: '',
+            login_name: 'my-username',
             //msg: 'Welcome to Your Vue.js App'
         }
     },
@@ -76,6 +77,11 @@ export default {
         } else {
             this.$root.token = this.get_token()
             console.log(this.$root.token)
+            api('/user')
+            .then(JSON.parse)
+            .then(j=>{
+              this.login_name = j.login
+            })
         }
     },
     components: {
@@ -86,31 +92,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
-
-h1, h2 {
-    font-weight: normal;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-a {
-    color: #42b983;
-}
+<style lang="scss" scoped>
 </style>
