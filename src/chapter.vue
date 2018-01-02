@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div>{{book_id}}/{{chapter_id}}</div>
+    <div>book_name and chapter_name: {{book_id}}/{{chapter_id}}</div>
     <div class="item-box">
-      <div v-for="(item, idx) in item_list" :key="item.id" class="item">
-        <div class="origin">{{item.origin}}</div>
-        <div class="trans-box">
-          <div @click="add_trans(idx)">add trans</div>
+      <div v-for="(item, idx) in item_list" :key="item.id" class="item row">
+        <div class="origin col-md-6">
+          <div><div class="label label-default">#123</div></div>
+          <code>{{item.origin}}</code>
+        </div>
+        <div class="trans-box col-md-6 auto-hide-base">
+          <div class="btn btn-info float-right auto-hide" @click="add_trans(idx)">add trans</div>
           <div v-for="trans in item.trans_list" :key="trans.id" class="trans">
-            <div class="trans_user">{{trans.user}}</div>
-            <div class="trans_content">{{trans.content}}</div>
+            <div><div class="trans_user label label-default">{{trans.user}}</div></div>
+            <div class="trans_content"><code>{{trans.content}}</code></div>
           </div>
         </div>
       </div>
@@ -63,4 +66,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.float-right {
+  position: absolute;
+  right: 0;
+  left: auto;
+}
+.float-left {
+  position: absolute;
+  left: 0;
+  right: auto;
+}
+
+.auto-hide-base:not(:hover) {
+  .auto-hide {
+    display: none;
+  }
+}
 </style>

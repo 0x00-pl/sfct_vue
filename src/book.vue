@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div>{{meta_info.book_name}}</div>
+  <div>book name: {{meta_info.book_name}}</div>
   <div class="content">
     <div v-for="i in chapter_list" :key="i.id"
     class="chapter_item">
