@@ -4,14 +4,28 @@
     <div class="item-box">
       <div v-for="(item, idx) in item_list" :key="item.id" class="item row">
         <div class="origin col-md-6">
-          <div><div class="label label-default">#123</div></div>
-          <code>{{item.origin}}</code>
+          <div class="panel panel-default auto-hide-anchor">
+            <div class="panel-heading float-anchor">
+              <h3 class="panel-title">#123</h3>
+              <div class="btn btn-warning float-right auto-hide" @click="add_trans(idx)">add trans</div>
+            </div>
+            <div class="panel-body">
+              <code>{{item.origin}}</code>
+            </div>
+          </div>
         </div>
-        <div class="trans-box col-md-6 auto-hide-base">
-          <div class="btn btn-info float-right auto-hide" @click="add_trans(idx)">add trans</div>
+        <div class="trans-box col-md-6">
           <div v-for="trans in item.trans_list" :key="trans.id" class="trans">
-            <div><div class="trans_user label label-default">{{trans.user}}</div></div>
-            <div class="trans_content"><code>{{trans.content}}</code></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  {{trans.user}}
+                </h3>
+              </div>
+              <div class="panel-body">
+                <code>{{trans.content}}</code>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -33,7 +47,13 @@ export default {
       book_id: '',
       chapter_id: '',
       meta_info: {},
-      item_list: [{'id':'', origin:'origin text', trans_list:[{'id':'trans_id', user:'username', content:'trans_content'}]}],
+      item_list: [{
+        'id':'', origin:'origin text',
+        trans_list:[
+          {'id':'trans_id', user:'username', content:'trans_content'},
+          {'id':'trans_id', user:'username', content:'trans_content'}
+          ]
+      }],
       current_item: 0,
       add_trans_active: false
     }
@@ -66,8 +86,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.float-anchor {
+  position: relative;
+  top: 0;
+}
 .float-right {
   position: absolute;
+  top: 0;
   right: 0;
   left: auto;
 }
@@ -77,7 +102,7 @@ export default {
   right: auto;
 }
 
-.auto-hide-base:not(:hover) {
+.auto-hide-anchor:not(:hover) {
   .auto-hide {
     display: none;
   }
