@@ -4,7 +4,7 @@
   <div class="content">
     <div v-for="i in chapter_list" :key="i.id"
     class="chapter_item">
-      <a :href="i.href">{{i.name}}</a>
+      <a :href="i._href">{{i.name}}</a>
     </div>
   </div>
 </div>
@@ -18,7 +18,7 @@ export default {
     return {
       book_id: '0',
       meta_info: {book_name:'sf'},
-      chapter_list: [{'id':0, name:'no name', href:'?book_id=sfct&chapter_id=0#chapter'}]
+      chapter_list: [{'id':0, name:'no name', _href:`?book_id=${this.book_id}&chapter_id=0#chapter`}]
     }
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
       .then(j=>{
         this.meta_info = j.meta_info
         this.chapter_list = j.chapter_list.map(i=>{
-          i.href=`?chapter_id=${i.id}#chapter`
+          i._href=`?book_id=${this.book_id}&chapter_id=${i.id}#chapter`
           return i
         })
       })

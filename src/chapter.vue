@@ -58,13 +58,13 @@ export default {
       chapter_id: '',
       meta_info: {},
       item_list: [{
-        'id':'1', origin:'origin text', status:'unverified',
+        'id':'1', origin:'origin text', status:'verified',
         trans_list:[
           {'id':'trans_id1', user:'username', content:'trans_content', vote:42, _hide:false},
           {'id':'trans_id2', user:'username', content:'trans_content', vote:0, _hide:true}
           ]
       },{
-        'id':'2', origin:'origin text2', status:'verified',
+        'id':'2', origin:'origin text2', status:'unverified',
         trans_list:[
           {'id':'trans_id3', user:'username', content:'trans_content', vote:0, _hide:false},
           {'id':'trans_id4', user:'username', content:'trans_content', vote:-1, _hide:true}
