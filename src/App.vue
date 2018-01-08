@@ -1,6 +1,31 @@
 <template>
 <div id="app">
-  <div class="header">{{login_name}}</div>
+  <div class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+         SFCT
+        </div>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li :class="{active:location=='book'}"><a>Book</a></li>
+          <li :class="{active:location=='chapter'}"><a>Chapter</a></li>
+          <li class="dropdown" :class="{open:header_dropdown_open}">
+                <a class="dropdown-toggle" @click="header_dropdown_open=!header_dropdown_open">
+                  {{login_name}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a>Settings</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">account</li>
+                  <li><a>Logout</a></li>
+                </ul>
+              </li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <component :is="location"></component>
   </div>
@@ -36,9 +61,10 @@ export default {
     name: 'app',
     data () {
         return {
-            location: '',
-            login_name: 'my-username',
-            //msg: 'Welcome to Your Vue.js App'
+          header_dropdown_open: false,
+          location: '',
+          login_name: 'my-username',
+          //msg: 'Welcome to Your Vue.js App'
         }
     },
     methods: {

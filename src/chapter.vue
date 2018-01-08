@@ -1,33 +1,36 @@
 <template>
   <div>
-    <div>book_name and chapter_name: {{book_id}}/{{chapter_id}}</div>
+    <div class="alert alert-success"><strong>book_name and chapter_name: </strong>{{book_id}}/{{chapter_id}}</div>
     <div class="item-box">
-      <div v-for="(item, idx) in item_list" :key="item.id" class="item row">
-        <div class="origin col-md-6">
-          <div class="panel panel-default auto-hide-anchor">
-            <div class="panel-heading float-anchor">
-              <h3 class="panel-title">#123</h3>
-              <div class="btn btn-warning float-right auto-hide" @click="add_trans(idx)">add trans</div>
-            </div>
-            <div class="panel-body">
-              <code>{{item.origin}}</code>
-            </div>
-          </div>
-        </div>
-        <div class="trans-box col-md-6">
-          <div v-for="trans in item.trans_list" :key="trans.id" class="trans">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">
-                  {{trans.user}}
-                </h3>
+      <div v-for="(item, idx) in item_list" :key="item.id" class="item">
+        <div class="row">
+          <div class="origin col-md-6">
+            <div class="panel panel-default auto-hide-anchor">
+              <div class="panel-heading float-anchor">
+                <h3 class="panel-title">#123</h3>
+                <div class="btn btn-warning float-right auto-hide" @click="add_trans(idx)">add trans</div>
               </div>
               <div class="panel-body">
-                <code>{{trans.content}}</code>
+                <code>{{item.origin}}</code>
+              </div>
+            </div>
+          </div>
+          <div class="trans-box col-md-6">
+            <div v-for="trans in item.trans_list" :key="trans.id" class="trans">
+              <div class="panel panel-default">
+                <div class="panel-heading" @click="trans._hide=!trans._hide">
+                  <h3 class="panel-title">
+                    {{trans.user}}
+                  </h3>
+                </div>
+                <div class="panel-body" :class="{hide:trans._hide}">
+                  <code>{{trans.content}}</code>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <hr>
       </div>
     </div>
     <popup v-model="add_trans_active">
@@ -50,8 +53,14 @@ export default {
       item_list: [{
         'id':'', origin:'origin text',
         trans_list:[
-          {'id':'trans_id', user:'username', content:'trans_content'},
-          {'id':'trans_id', user:'username', content:'trans_content'}
+          {'id':'trans_id', user:'username', content:'trans_content', _hide:false},
+          {'id':'trans_id', user:'username', content:'trans_content', _hide:true}
+          ]
+      },{
+        'id':'', origin:'origin text2',
+        trans_list:[
+          {'id':'trans_id', user:'username', content:'trans_content', _hide:false},
+          {'id':'trans_id', user:'username', content:'trans_content', _hide:true}
           ]
       }],
       current_item: 0,
