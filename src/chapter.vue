@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div class="alert alert-success"><strong>book_name and chapter_name: </strong>{{book_id}}/{{chapter_id}}</div>
+    <div class="alert alert-info"><strong>book_name and chapter_name: </strong>{{book_id}}/{{chapter_id}}</div>
     <div class="item-box">
       <div v-for="(item, idx) in item_list" :key="item.id" class="item">
         <div class="row">
           <div class="origin col-md-6">
-            <div class="panel panel-default auto-hide-anchor">
-              <div class="panel-heading float-anchor">
+            <div class="panel panel-default auto-hide-anchor"
+            :class="{'panel-default':item.status=='pass', 'panel-danger':item.status=='unverified', 'panel-success':item.status=='verified'}">
+              <div class="panel-heading position-anchor">
                 <h3 class="panel-title">#123</h3>
-                <div class="btn btn-warning float-right auto-hide" @click="add_trans(idx)">add trans</div>
+                <div class="btn btn-warning position-right auto-hide" @click="add_trans(idx)">add trans</div>
               </div>
               <div class="panel-body">
                 <code>{{item.origin}}</code>
@@ -17,10 +18,16 @@
           </div>
           <div class="trans-box col-md-6">
             <div v-for="trans in item.trans_list" :key="trans.id" class="trans">
-              <div class="panel panel-default">
+              <div class="panel panel-default"
+              :class="{'panel-success':trans.vote>0, 'panel-warning':trans.vote==0, 'panel-danger':trans.vote<0}">
                 <div class="panel-heading" @click="trans._hide=!trans._hide">
                   <h3 class="panel-title">
                     {{trans.user}}
+                    <span class="auto-hide-anchor pull-right" @click.stop="true">
+                      <span class="badge auto-hide-transparent" @click.stop="true">-1</span>
+                      <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
+                      <span class="badge auto-hide-transparent" @click.stop="true">+1</span>
+                    </span>
                   </h3>
                 </div>
                 <div class="panel-body" :class="{hide:trans._hide}">
@@ -51,16 +58,16 @@ export default {
       chapter_id: '',
       meta_info: {},
       item_list: [{
-        'id':'', origin:'origin text',
+        'id':'1', origin:'origin text', status:'unverified',
         trans_list:[
-          {'id':'trans_id', user:'username', content:'trans_content', _hide:false},
-          {'id':'trans_id', user:'username', content:'trans_content', _hide:true}
+          {'id':'trans_id1', user:'username', content:'trans_content', vote:42, _hide:false},
+          {'id':'trans_id2', user:'username', content:'trans_content', vote:0, _hide:true}
           ]
       },{
-        'id':'', origin:'origin text2',
+        'id':'2', origin:'origin text2', status:'verified',
         trans_list:[
-          {'id':'trans_id', user:'username', content:'trans_content', _hide:false},
-          {'id':'trans_id', user:'username', content:'trans_content', _hide:true}
+          {'id':'trans_id3', user:'username', content:'trans_content', vote:0, _hide:false},
+          {'id':'trans_id4', user:'username', content:'trans_content', vote:-1, _hide:true}
           ]
       }],
       current_item: 0,
@@ -95,11 +102,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.float-anchor {
+.position-anchor {
   position: relative;
   top: 0;
 }
-.float-right {
+.position-right {
   position: absolute;
   top: 0;
   right: 0;
@@ -114,6 +121,9 @@ export default {
 .auto-hide-anchor:not(:hover) {
   .auto-hide {
     display: none;
+  }
+  .auto-hide-transparent {
+    opacity: 0;
   }
 }
 </style>
