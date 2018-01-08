@@ -23,10 +23,10 @@
                 <div class="panel-heading" @click="trans._hide=!trans._hide">
                   <h3 class="panel-title">
                     {{trans.user}}
-                    <span class="auto-hide-anchor pull-right" @click.stop="true">
-                      <span class="badge auto-hide-transparent" @click.stop="true">-1</span>
+                    <span class="auto-hide-anchor pull-right" @click.stop="0">
+                      <span class="badge auto-hide-transparent" @click.stop="111">-1</span>
                       <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
-                      <span class="badge auto-hide-transparent" @click.stop="true">+1</span>
+                      <span class="badge auto-hide-transparent" @click.stop="111">+1</span>
                     </span>
                   </h3>
                 </div>
@@ -52,7 +52,7 @@
       </div>
       <hr>
       <div class="pull-right">
-        <div class="btn btn-default">Cancle</div>
+        <div class="btn btn-default" @click="add_trans_active=false">Cancle</div>
         <div class="btn btn-primary">Commit</div>
       </div>
     </popup>

@@ -2,7 +2,7 @@
 <div class="underlayer" :class="{active:value}" @click="close()">
   <div class="content">
     <div class="container">
-      <div class="panel panel-info" @click.stop="true">
+      <div class="panel panel-info" @click.stop="0">
         <div class="panel-heading">
           <h3 class="panel-title">
             <slot name="title">message</slot>
