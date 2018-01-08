@@ -1,9 +1,17 @@
 <template>
-<div class="background" :class="{active:value}">
+<div class="underlayer" :class="{active:value}" @click="close()">
   <div class="content">
-    <slot>popup messages</slot>
-    <div class="button_list">
-      <button v-for="button in button_list" :key="button">{{button}}</button>
+    <div class="container">
+      <div class="panel panel-info" @click.stop="true">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <slot name="title">message</slot>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <slot>popup messages</slot>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -11,24 +19,39 @@
 
 <script>
 export default {
-  props: ["value", "button_list"],
+  props: ["value"],
   data(){
     return {
     }
   },
   methods: {
     close(){
-      this.emit('input', false)
+      this.$emit('input', false)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.background {
-  display: none;
-  &.active {
-    display: block;
+
+.underlayer {
+  position: absolute;
+  background-color: rgba(#000, 0.3);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+
+  &:not(.active) {
+    display: none;
+  }
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
   }
 }
+
 </style>

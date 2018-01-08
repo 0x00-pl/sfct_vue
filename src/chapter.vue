@@ -41,8 +41,20 @@
       </div>
     </div>
     <popup v-model="add_trans_active">
-      <div class="origin">{{item_list[current_item].origin}}</div>
-      <div class="trans_editor"><input type="text" /></div>
+      <div slot="title">Add translate</div>
+      <div class="row">
+        <div class="col-md-6">
+          <code>{{item_list[current_item].origin}}</code>
+        </div>
+        <div class="col-md-6">
+          <code contenteditable="true">{{current_trans}}</code>
+        </div>
+      </div>
+      <hr>
+      <div class="pull-right">
+        <div class="btn btn-default">Cancle</div>
+        <div class="btn btn-primary">Commit</div>
+      </div>
     </popup>
   </div>
 </template>
@@ -71,7 +83,8 @@ export default {
           ]
       }],
       current_item: 0,
-      add_trans_active: false
+      add_trans_active: true,
+      current_trans: ''
     }
   },
   methods: {
@@ -86,6 +99,7 @@ export default {
     },
     add_trans(current_item){
       this.current_item = current_item
+      this.current_trans = this.item_list[this.current_item].origin
       this.add_trans_active = true
     },
     save_trans(){}
@@ -94,6 +108,8 @@ export default {
     let args = new URL(window.location)
     this.book_id = args.searchParams.get("book_id")
     this.chapter_id = args.searchParams.get("chapter_id")
+
+    // TODO: this.load_chapter()
   },
   components: {
     popup
@@ -126,4 +142,5 @@ export default {
     opacity: 0;
   }
 }
+
 </style>

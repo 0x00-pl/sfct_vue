@@ -1,11 +1,11 @@
 <template>
 <div>
-  <div>book name: {{meta_info.book_name}}</div>
-  <div class="content">
-    <div v-for="i in chapter_list" :key="i.id"
-    class="chapter_item">
-      <a :href="i._href">{{i.name}}</a>
-    </div>
+  <div class="alert alert-info"><strong>book name: </strong>{{meta_info.book_name}}</div>
+  <div class="container">
+      <div v-for="i in chapter_list" :key="i.id"
+      class="chapter_item text-center">
+        <h3><a :href="i._href">{{i.name}}</a></h3>
+      </div>
   </div>
 </div>
 </template>
@@ -18,7 +18,11 @@ export default {
     return {
       book_id: '0',
       meta_info: {book_name:'sf'},
-      chapter_list: [{'id':0, name:'no name', _href:`?book_id=${this.book_id}&chapter_id=0#chapter`}]
+      chapter_list: [
+        {'id':0, name:'no name0', _href:`?book_id=${this.book_id}&chapter_id=0#chapter`},
+        {'id':1, name:'no name1', _href:`?book_id=${this.book_id}&chapter_id=1#chapter`},
+        {'id':2, name:'no name2', _href:`?book_id=${this.book_id}&chapter_id=2#chapter`},
+        ]
     }
   },
   methods: {
