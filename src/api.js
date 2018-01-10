@@ -1,9 +1,10 @@
 import config from '../config'
-import url from 'url'
 
-function api(path, args, native){
-  let u = url.resolve(config.api_server, path)
-  fetch(u, {method: 'post', body: JSON.stringify(args)})
+function api(token, path, args, native){
+  let u = new URL(path, config.api_server)
+  u.searchParams.append('token', token)
+  console.log('api href: ', u.href)
+  return fetch(u.href, {method: 'post', body: JSON.stringify(args)})
   .then(res =>{
     if(native) {
       return res

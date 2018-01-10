@@ -83,7 +83,7 @@ export default {
           ]
       }],
       current_item: 0,
-      add_trans_active: true,
+      add_trans_active: false,
       current_trans: ''
     }
   },

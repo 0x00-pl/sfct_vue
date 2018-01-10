@@ -9,8 +9,7 @@ export default {
       let u = new URL(window.location)
       let token = u.searchParams.get('token')
       localStorage.setItem('token', token)
-      console.log('back to #index')
-      window.location.assign('#index')
+      window.location.assign('#')
     }
 }
 </script>

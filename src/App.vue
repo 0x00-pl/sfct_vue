@@ -20,6 +20,9 @@
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">account</li>
                   <li><a>Logout</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">debug</li>
+                  <li><a @click="auth()">auth</a></li>
                 </ul>
               </li>
         </ul>
@@ -51,6 +54,9 @@ export default {
     },
     methods: {
         route(s){
+          if(s=='' || s=='#'){
+            s = '#book'
+          }
           console.log('route to: ', s, s.substr(1))
           return s.substr(1)
         },
@@ -58,7 +64,6 @@ export default {
           let cb = encodeURIComponent(new URL('#login_cb', window.location).href)
           let next = new URL('/oauth0', config.api_server)
           next.searchParams.append('cb', cb)
-          console.log('href', next.href)
           window.location.assign(next.href)
         },
         logout(){
@@ -66,12 +71,17 @@ export default {
             window.location.reload()
         },
         get_token(){
-            let token = localStorage.getItem('token')
+            let token = this.$root.token || localStorage.getItem('token')
             if(!token){
-                this.login()
+                this.login() // reload page
             } else {
                 return token
             }
+        },
+        auth(){
+          api(this.get_token(), '/api/sfct/auth', [])
+          .then(t=>console.log('success'))
+          .catch(err=>console.log('fail'))
         }
     },
     created(){
@@ -81,15 +91,13 @@ export default {
         window.onhashchange()
         if(window.location.hash == ''){
           window.location.assign('#book')
-        }else if(window.location.hash == '#login_cb'){
+        } else if(window.location.hash == '#login_cb'){
         } else {
             this.$root.token = this.get_token()
-            console.log(this.$root.token)
-            api('/user')
+            console.log('get_token: ', this.$root.token)
+            api(this.$root.token, '/api/sfct/auth', [])
             .then(JSON.parse)
-            .then(j=>{
-              this.login_name = j.login
-            })
+            .then(console.log)
         }
     },
     components: {
