@@ -23,6 +23,9 @@
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">debug</li>
                   <li><a @click="auth()">auth</a></li>
+                  <li><a @click="add_book()">add_book</a></li>
+                  <li><a @click="add_chapter()">add_chapter</a></li>
+                  <li><a @click="get_chapter_block_trans()">get_chapter_block_trans</a></li>
                 </ul>
               </li>
         </ul>
@@ -82,6 +85,21 @@ export default {
           api(this.get_token(), '/api/sfct/auth', [])
           .then(t=>console.log('success'))
           .catch(err=>console.log('fail'))
+        },
+        add_book(){
+          api(this.get_token(), '/api/sfct/add_book', {name: 'sfct'})
+          .then(console.log)
+          .catch(console.log)
+        },
+        add_chapter(){
+          api(this.get_token(), '/api/sfct/add_chapter', {book_id: '5a572a2d693fa45ad081c856', name: 'chapter 1'})
+          .then(console.log)
+          .catch(console.log)
+        },
+        get_chapter_block_trans(){
+          api(this.get_token(), '/api/sfct/get_chapter_block_trans', {chapter_id: '5a57301dd71e2b62ecb6f42a'})
+          .then(console.log)
+          .catch(console.log)
         }
     },
     created(){
