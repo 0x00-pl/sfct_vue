@@ -24,9 +24,9 @@
                   <h3 class="panel-title">
                     {{trans.user && trans.user.name || "null"}}
                     <span class="auto-hide-anchor pull-right" @click.stop="0">
-                      <span class="badge auto-hide-transparent" @click.stop="111">-1</span>
+                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans._id, -1)">-1</span>
                       <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
-                      <span class="badge auto-hide-transparent" @click.stop="111">+1</span>
+                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans._id, 1)">+1</span>
                     </span>
                   </h3>
                 </div>
@@ -119,6 +119,11 @@ export default {
     save_trans(block_id){
       this.add_trans_active=false
       api(this.$root.token, '/api/sfct/add_trans', {block_id, text: this.current_trans})
+      .then(console.log)
+      .catch(console.log)
+    },
+    vote_trans(trans_id, value){
+      api(this.$root.token, '/api/sfct/vote_trans', {trans_id, value})
       .then(console.log)
       .catch(console.log)
     }
