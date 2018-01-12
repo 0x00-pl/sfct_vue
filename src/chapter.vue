@@ -22,7 +22,7 @@
               :class="{'panel-success':trans.vote>0, 'panel-warning':trans.vote==0, 'panel-danger':trans.vote<0}">
                 <div class="panel-heading" @click="trans._hide=!trans._hide">
                   <h3 class="panel-title">
-                    {{trans.user.name}}
+                    {{trans.user && trans.user.name || "null"}}
                     <span class="auto-hide-anchor pull-right" @click.stop="0">
                       <span class="badge auto-hide-transparent" @click.stop="111">-1</span>
                       <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
@@ -104,11 +104,10 @@ export default {
       this.current_trans = ev.target.textContent
     },
     load_chapter(book_id, chapter_id){
-      api('/chapter', [book_id, chapter_id])
+      api(this.$root.token, '/api/sfct/get_chapter_block_trans', {chapter_id})
       .then(t=>JSON.parse(t))
       .then(j=>{
-        this.meta_info = j.meta_info
-        this.item_list = j.item_list
+        this.chapter = j
       })
       .catch(console.log)
     },
@@ -129,7 +128,7 @@ export default {
     let book_id = args.searchParams.get("book_id")
     let chapter_id = args.searchParams.get("chapter_id")
 
-    // TODO: this.load_chapter()
+    this.load_chapter(book_id, chapter_id)
   },
   components: {
     popup

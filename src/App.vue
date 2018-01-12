@@ -19,7 +19,7 @@
                   <li><a>Settings</a></li>
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">account</li>
-                  <li><a>Logout</a></li>
+                  <li><a @click="logout()">Logout</a></li>
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">debug</li>
                   <li><a @click="auth()">auth</a></li>
@@ -128,6 +128,13 @@ export default {
             api(this.$root.token, '/api/sfct/auth', [])
             .then(JSON.parse)
             .then(console.log)
+
+            api(this.$root.token, '/api/sfct/user', [])
+            .then(JSON.parse)
+            .then(j=>{
+              console.log('user: ', j)
+              this.login_name = j.login
+            })
         }
     },
     components: {
