@@ -49,6 +49,7 @@ export default {
   .content {
     position: absolute;
     top: 50%;
+    transform: translate3d(0, -50%, 0);
     left: 0;
     right: 0;
   }

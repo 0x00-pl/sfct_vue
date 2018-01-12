@@ -23,8 +23,10 @@
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">debug</li>
                   <li><a @click="auth()">auth</a></li>
+                  <li><a @click="add_user()">add_user</a></li>
                   <li><a @click="add_book()">add_book</a></li>
                   <li><a @click="add_chapter()">add_chapter</a></li>
+                  <li><a @click="add_block()">add_block</a></li>
                   <li><a @click="get_chapter_block_trans()">get_chapter_block_trans</a></li>
                 </ul>
               </li>
@@ -86,6 +88,11 @@ export default {
           .then(t=>console.log('success'))
           .catch(err=>console.log('fail'))
         },
+        add_user(){
+          api(this.get_token(), '/api/sfct/add_user', {name: 'admin'})
+          .then(console.log)
+          .catch(console.log)
+        },
         add_book(){
           api(this.get_token(), '/api/sfct/add_book', {name: 'sfct'})
           .then(console.log)
@@ -93,6 +100,11 @@ export default {
         },
         add_chapter(){
           api(this.get_token(), '/api/sfct/add_chapter', {book_id: '5a572a2d693fa45ad081c856', name: 'chapter 1'})
+          .then(console.log)
+          .catch(console.log)
+        },
+        add_block(){
+          api(this.get_token(), '/api/sfct/add_block', {chapter_id: '5a57301dd71e2b62ecb6f42a', origin: 'some english text'})
           .then(console.log)
           .catch(console.log)
         },
