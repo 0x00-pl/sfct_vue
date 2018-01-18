@@ -16,12 +16,13 @@ import api from './api'
 export default {
   data(){
     return {
+      book_id: '',
       book: {}
     }
   },
   methods: {
-    load_book(){
-      api(this.$root.token, '/api/sfct/get_book_chapter', {book_name: 'sfct'})
+    load_book(book_id){
+      api(this.$root.token, '/api/sfct/get_book_chapter', {book_id})
       .then(t=>JSON.parse(t))
       .then(j=>{
         this.book = j
@@ -33,7 +34,10 @@ export default {
     }
   },
   created(){
-    this.load_book()
+    let args = new URL(window.location)
+    let book_id = args.searchParams.get("book_id")
+
+    this.load_book(book_id)
   }
 }
 </script>

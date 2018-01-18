@@ -35,7 +35,7 @@ export default {
 <style lang="scss" scoped>
 
 .underlayer {
-  position: absolute;
+  position: fixed;
   background-color: rgba(#000, 0.3);
   top: 0;
   bottom: 0;

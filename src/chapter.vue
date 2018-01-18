@@ -107,6 +107,7 @@ export default {
       api(this.$root.token, '/api/sfct/get_chapter_block_trans', {chapter_id})
       .then(t=>JSON.parse(t))
       .then(j=>{
+        j.block_list = j.block_list.filter(block=>block.origin.startsWith('(*'))
         this.chapter = j
       })
       .catch(console.log)
@@ -118,7 +119,9 @@ export default {
     },
     save_trans(block_id){
       this.add_trans_active=false
-      api(this.$root.token, '/api/sfct/add_trans', {block_id, text: this.current_trans})
+      let origin = this.chapter.block_list[this.current_block].origin
+      let text = this.current_trans
+      api(this.$root.token, '/api/sfct/add_trans', {origin, text})
       .then(console.log)
       .catch(console.log)
     },
