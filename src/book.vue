@@ -23,7 +23,7 @@ export default {
   methods: {
     load_book(book_id){
       api(this.$root.token, '/api/sfct/get_book_chapter', {book_id})
-      .then(t=>JSON.parse(t))
+      .then(JSON.parse)
       .then(j=>{
         this.book = j
       })

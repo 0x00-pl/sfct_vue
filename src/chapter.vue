@@ -12,7 +12,7 @@
                 <div class="btn btn-warning position-right auto-hide" @click="add_trans(idx)">add trans</div>
               </div>
               <div class="panel-body">
-                <code>{{block.origin}}</code>
+                <code class="code-box pull-right">{{block.origin}}</code>
               </div>
             </div>
           </div>
@@ -20,18 +20,18 @@
             <div v-for="trans in block.trans_list" :key="trans._id" class="trans">
               <div class="panel panel-default"
               :class="{'panel-success':trans.vote>0, 'panel-warning':trans.vote==0, 'panel-danger':trans.vote<0}">
-                <div class="panel-heading" @click="trans._hide=!trans._hide">
+                <div class="panel-heading" @click.stop="trigger_trans(trans)">
                   <h3 class="panel-title">
                     {{trans.user && trans.user.name || "null"}}
                     <span class="auto-hide-anchor pull-right" @click.stop="0">
-                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans._id, -1)">-1</span>
+                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans, -1)">-1</span>
                       <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
-                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans._id, 1)">+1</span>
+                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans, 1)">+1</span>
                     </span>
                   </h3>
                 </div>
-                <div class="panel-body" :class="{hide:trans._hide}">
-                  <code>{{trans.text}}</code>
+                <div class="panel-body" :class="{hide: trans._hide}">
+                  <code class="code-box">{{trans.text}}</code>
                 </div>
               </div>
             </div>
@@ -44,10 +44,10 @@
       <div slot="title">Add translate</div>
       <div class="row">
         <div class="col-md-6">
-          <code class="code-box">{{chapter.block_list[current_block].origin}}</code>
+          <code class="code-box pull-right">{{chapter.block_list[current_block].origin}}</code>
         </div>
         <div class="col-md-6">
-          <code class="code-box" contenteditable="true" @blur="current_trans_blur">{{current_trans}}</code>
+          <code class="code-box pull-left" contenteditable="true" spellcheck="false" @blur="current_trans_blur">{{current_trans}}</code>
         </div>
       </div>
       <hr>
@@ -108,9 +108,20 @@ export default {
       .then(t=>JSON.parse(t))
       .then(j=>{
         j.block_list = j.block_list.filter(block=>block.origin.startsWith('(*'))
+        j.block_list = j.block_list.map(block=>{
+          block.trans_list.sort((a,b)=>b.vote-a.vote)
+          block.trans_list.forEach((v,i)=>{
+            v._hide = i!=0
+          })
+          return block
+        })
         this.chapter = j
       })
       .catch(console.log)
+    },
+    trigger_trans(trans){
+      trans._hide = trans._hide ? false : true
+      console.log(trans._hide)
     },
     add_trans(idx){
       this.current_block = idx
@@ -120,12 +131,16 @@ export default {
     save_trans(block_id){
       this.add_trans_active=false
       let origin = this.chapter.block_list[this.current_block].origin
-      let text = this.current_trans
-      api(this.$root.token, '/api/sfct/add_trans', {origin, text})
-      .then(console.log)
-      .catch(console.log)
+      let text = this.current_trans.trim()
+      if(text.startsWith('(*') && text.endsWith('*)')){
+        api(this.$root.token, '/api/sfct/add_trans', {origin, text})
+        .then(console.log)
+        .catch(console.log)
+      }
     },
-    vote_trans(trans_id, value){
+    vote_trans(trans, value){
+      let trans_id = trans._id
+      trans.vote += value
       api(this.$root.token, '/api/sfct/vote_trans', {trans_id, value})
       .then(console.log)
       .catch(console.log)
@@ -155,11 +170,6 @@ export default {
   right: 0;
   left: auto;
 }
-.float-left {
-  position: absolute;
-  left: 0;
-  right: auto;
-}
 
 .auto-hide-anchor:not(:hover) {
   .auto-hide {
@@ -170,22 +180,20 @@ export default {
   }
 }
 
-.fill-block {
-  width: 100%;
-
-  resize: vertical;
-  &[disabled]{
-    resize: none;
-  }
-}
-
 .code-box {
   display: inline-block;
   white-space: pre;
-  width: 100%;
   border: 0.25rem solid lightgray;
+  width: 100%;
   &[contenteditable] {
     border: 0.25rem solid lightpink;
+  }
+  overflow: hidden;
+  &:hover {
+    overflow: visible;
+    width: 65rem;
+    margin-right: -3rem;
+    margin-left: -3rem;
   }
 }
 
