@@ -197,8 +197,6 @@ export default {
   &:hover {
     overflow: visible;
     width: 65rem;
-    margin-right: -3rem;
-    margin-left: -3rem;
   }
 }
 
