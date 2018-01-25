@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="alert alert-info"><strong>{{chapter.book.name}} / {{chapter.name}}</strong></div>
+    <div class="alert alert-info">
+      <p><strong>翻译须知:</strong></p>
+      <p>由于生成器对中文支持不好, 所有 _text_ 需要翻译为 _'文本'_ , 注意两边的空格.</p>
+      <p>所有 [text] 不支持内容为中文, 应该翻译成 "文本" 或 "文本"([text]) 或 不翻译 .</p>
+    </div>
     <div class="item-box">
       <div v-for="(block, idx) in chapter.block_list" :key="block._id" class="item">
         <div class="row">
