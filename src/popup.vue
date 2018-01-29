@@ -52,6 +52,8 @@ export default {
     transform: translate3d(0, -50%, 0);
     left: 0;
     right: 0;
+    overflow-y: scroll;
+    height: 80%;
   }
 }
 
