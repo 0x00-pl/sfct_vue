@@ -126,7 +126,7 @@ export default {
         } else {
             this.$root.token = this.get_token()
             console.log('get_token: ', this.$root.token)
-            api(this.$root.token, '/api/sfct/auth', [])
+            if(false) api(this.$root.token, '/api/sfct/auth', [])
             .then(JSON.parse)
             .then(j=>{
               this.login_name = j.username
