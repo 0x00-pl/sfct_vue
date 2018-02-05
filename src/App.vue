@@ -13,17 +13,17 @@
           <li :class="{active:location=='chapter'}"><a>Chapter</a></li>
           <li class="dropdown" :class="{open:header_dropdown_open}">
                 <a class="dropdown-toggle" @click="header_dropdown_open=!header_dropdown_open">
-                  {{login_name}} <span class="caret"></span>
+                  {{user.username}} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li><a>Settings</a></li>
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">account</li>
                   <li><a @click="logout()">Logout</a></li>
-                  <!-- <li role="separator" class="divider"></li>
+                  <li role="separator" class="divider"></li>
                   <li class="dropdown-header">debug</li>
-                  <li><a @click="auth()">auth</a></li>
-                  <li><a @click="add_user()">add_user</a></li>
+                  <li><a @click="cache_block_transed()">cache-block-transed</a></li>
+                  <!--<li><a @click="add_user()">add_user</a></li>
                   <li><a @click="add_book()">add_book</a></li>
                   <li><a @click="add_chapter()">add_chapter</a></li>
                   <li><a @click="add_block()">add_block</a></li>
@@ -55,7 +55,9 @@ export default {
         return {
           header_dropdown_open: false,
           location: '',
-          login_name: 'my-username',
+          user: {
+            login_name: 'my-username'
+          }
         }
     },
     methods: {
@@ -77,7 +79,7 @@ export default {
             window.location.reload()
         },
         get_token(){
-            let token = this.$root.token || localStorage.getItem('token')
+            let token = localStorage.getItem('token')
             if(!token){
                 this.login() // reload page
             } else {
@@ -114,6 +116,11 @@ export default {
         //   .then(console.log)
         //   .catch(console.log)
         // }
+        cache_block_transed(){
+          api(this.get_token(), '/api/sfct/cache-block-transed', {})
+          .then(console.log)
+          .catch(console.log)
+        }
     },
     created(){
         window.onhashchange = () => {
@@ -125,11 +132,11 @@ export default {
         } else if(window.location.hash == '#login_cb'){
         } else {
             this.$root.token = this.get_token()
-            console.log('get_token: ', this.$root.token)
-            if(false) api(this.$root.token, '/api/sfct/auth', [])
+            console.log('get_token: ', this.$root.token, typeof this.$root.token)
+            api(this.$root.token, '/api/sfct/auth', [])
             .then(JSON.parse)
             .then(j=>{
-              this.login_name = j.username
+              this.user = j
             }).catch(err=>{
               console.log(err)
               alert('your have no authorization !!!')
