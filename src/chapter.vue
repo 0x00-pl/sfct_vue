@@ -11,7 +11,7 @@
         <div class="row">
           <div class="origin col-md-6">
             <div class="panel panel-default auto-hide-anchor"
-            :class="{'panel-default':block.status=='skip', 'panel-danger':block.status=='unverified', 'panel-success':block.status=='verified'}">
+            :class="{'panel-success':block.trans_list.filter(x=>x.vote>0).length>0}">
               <div class="panel-heading position-anchor">
                 <h3 class="panel-title">#{{idx}}</h3>
                 <div class="btn btn-warning position-right auto-hide" @click="add_trans(idx)">add trans</div>
