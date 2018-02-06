@@ -49,10 +49,14 @@
       <div slot="title">Add translate</div>
       <div class="row">
         <div class="col-md-6">
-          <code class="code-box pull-right">{{chapter.block_list[current_block].origin}}</code>
+          <!--code class="code-box pull-right">{{chapter.block_list[current_block].origin}}</code-->
+          <textarea class="code-area pull-right" cols="80" rows="10" disabled v-model="chapter.block_list[current_block].origin"></textarea>
         </div>
         <div class="col-md-6">
-          <code class="code-box pull-left" contenteditable="true" spellcheck="false" @blur="current_trans_blur">{{current_trans}}</code>
+          <!--code class="code-box pull-left" contenteditable="true" spellcheck="false" @blur="current_trans_blur">
+          {{current_trans}}
+          </code-->
+          <textarea class="code-area" cols="80" rows="10" v-model="current_trans"></textarea>
         </div>
       </div>
       <hr>
@@ -198,6 +202,15 @@ export default {
     overflow: visible;
     width: 65rem;
   }
+}
+
+.code-area {
+  color: FireBrick;
+  background-color: whitesmoke;
+  border: 0.25rem solid PeachPuff;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  resize: vertical;
 }
 
 </style>
