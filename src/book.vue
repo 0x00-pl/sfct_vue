@@ -5,8 +5,15 @@
       <div v-for="i in book.chapter_list" :key="i._id"
       class="chapter_item text-center">
         <h3><a :href="chapter_href(i)">{{i.name}}</a></h3>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" :style="{width: transed_progress_percent(i._id)+'%'}"></div>
+        <div class="row">
+          <h4>
+            <div class="label label-primary col-md-1">[ {{chapter_transed[i._id].transed_count}} / {{chapter_transed[i._id].block_count }}]</div>
+          </h4>
+          <div class="col-md-11">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" :style="{width: transed_progress_percent(i._id)+'%'}"></div>
+            </div>
+          </div>
         </div>
       </div>
   </div>
