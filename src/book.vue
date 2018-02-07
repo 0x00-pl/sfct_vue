@@ -7,11 +7,14 @@
         <h3><a :href="chapter_href(i)">{{i.name}}</a></h3>
         <div class="row">
           <h4>
-            <div class="label label-primary col-md-1">[ {{chapter_transed[i._id].transed_count}} / {{chapter_transed[i._id].block_count }}]</div>
+            <div class="label label-primary col-md-1"
+            :class="{'label-success':transed_progress_percent(i._id)==100}">[ {{chapter_transed[i._id].transed_count}} / {{chapter_transed[i._id].block_count }}]</div>
           </h4>
           <div class="col-md-11">
             <div class="progress">
-              <div class="progress-bar" role="progressbar" :style="{width: transed_progress_percent(i._id)+'%'}"></div>
+              <div class="progress-bar"
+              :class="{'progress-bar-success': transed_progress_percent(i._id)==100}"
+              :style="{width: transed_progress_percent(i._id)+'%'}"></div>
             </div>
           </div>
         </div>
