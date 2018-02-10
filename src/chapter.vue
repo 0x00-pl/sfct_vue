@@ -117,16 +117,15 @@ export default {
       .then(t=>JSON.parse(t))
       .then(j=>{
         j.block_list = j.block_list.filter(block=>block.origin.startsWith('(*'))
-        j.block_list = j.block_list.map(block=>{
-          block.trans_list.sort((a,b)=>b.vote-a.vote)
-          block.trans_list.forEach((v,i)=>{
-            v._hide = i!=0
-          })
-          return block
-        })
+        j.block_list = j.block_list.map(block=>this.trans_list_update(block))
         this.chapter = j
       })
       .catch(console.log)
+    },
+    trans_list_update(block){
+      block.trans_list.sort((a,b)=>b.vote-a.vote)
+      block.trans_list.forEach((v,i)=>{ v._hide = i!=0 })
+      return block
     },
     trigger_trans(trans){
       trans._hide = trans._hide ? false : true
@@ -139,11 +138,13 @@ export default {
     },
     save_trans(block_id){
       this.add_trans_active=false
-      let origin = this.chapter.block_list[this.current_block].origin
+      let block = this.chapter.block_list[this.current_block]
+      let origin = block.origin
       let text = this.current_trans.trim()
       if(text.startsWith('(*') && text.endsWith('*)')){
         api(this.$root.token, '/api/sfct/add_trans', {origin, text})
         .then(console.log)
+        .then(a=>this.trans_list_update(block))
         .catch(console.log)
       }
     },
