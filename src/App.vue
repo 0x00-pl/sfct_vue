@@ -127,21 +127,23 @@ export default {
             this.location = this.route(window.location.hash)
         }
         window.onhashchange()
+        if(window.location.hash == '#login_cb'){
+          // skip token check on login_cb
+          return
+        }
         if(window.location.hash == ''){
           window.location.assign('#index')
-        } else if(window.location.hash == '#login_cb'){
-        } else {
-            this.$root.token = this.get_token()
-            console.log('get_token: ', this.$root.token, typeof this.$root.token)
-            api(this.$root.token, '/api/sfct/auth', [])
-            .then(JSON.parse)
-            .then(j=>{
-              this.user = j
-            }).catch(err=>{
-              console.log(err)
-              alert('your have no authorization !!!')
-            })
         }
+        this.$root.token = this.get_token()
+        console.log('get_token: ', this.$root.token, typeof this.$root.token)
+        api(this.$root.token, '/api/sfct/auth', [])
+        .then(JSON.parse)
+        .then(j=>{
+          this.user = j
+        }).catch(err=>{
+          console.log(err)
+          alert('your have no authorization !!!')
+        })
     },
     components: {
         book,
