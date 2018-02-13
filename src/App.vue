@@ -140,6 +140,7 @@ export default {
         .then(JSON.parse)
         .then(j=>{
           this.user = j
+          this.$root.user = this.user
         }).catch(err=>{
           console.log(err)
           alert('your have no authorization !!!')

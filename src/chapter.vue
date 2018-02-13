@@ -143,8 +143,19 @@ export default {
       let text = this.current_trans.trim()
       if(text.startsWith('(*') && text.endsWith('*)')){
         api(this.$root.token, '/api/sfct/add_trans', {origin, text})
-        .then(console.log)
-        .then(a=>this.trans_list_update(block))
+        .then(JSON.parse)
+        .then(j=>{
+          j.user = {name: this.$root.user.username}
+          block.trans_list.push(j)
+          return this.trans_list_update(block)
+          // {
+          // "origin": "(** * Basic Extraction *)",
+          // "text": "(** * 基础导出 *)",
+          // "user_id": "5a5881d3023da428f323f6af",
+          // "vote": 0,
+          // "_id": "5a94ca9af50da062312153f7"
+          // }
+        })
         .catch(console.log)
       }
     },
