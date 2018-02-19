@@ -14,7 +14,7 @@
             :class="{'panel-success':block.trans_list.filter(x=>x.vote>0).length>0}">
               <div class="panel-heading position-anchor">
                 <h3 class="panel-title">#{{idx}}</h3>
-                <div class="btn btn-warning position-right auto-hide" @click="add_trans(idx)">add trans</div>
+                <div v-if="user_can_edit()" class="btn btn-warning position-right auto-hide" @click="add_trans(idx)">add trans</div>
               </div>
               <div class="panel-body">
                 <code class="code-box pull-right">{{block.origin}}</code>
@@ -29,9 +29,9 @@
                   <h3 class="panel-title">
                     {{trans.user && trans.user.name || "null"}}
                     <span class="auto-hide-anchor pull-right" @click.stop="0">
-                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans, -1)">-1</span>
+                      <span v-if="user_can_vote()" class="badge auto-hide-transparent" @click.stop="vote_trans(trans, -1)">-1</span>
                       <span class="badge"><span>vote:</span> <span>{{trans.vote}}</span></span>
-                      <span class="badge auto-hide-transparent" @click.stop="vote_trans(trans, 1)">+1</span>
+                      <span v-if="user_can_vote()" class="badge auto-hide-transparent" @click.stop="vote_trans(trans, 1)">+1</span>
                     </span>
                   </h3>
                 </div>
@@ -109,8 +109,15 @@ export default {
     }
   },
   methods: {
-    current_trans_blur(ev){
-      this.current_trans = ev.target.textContent
+    // TODO: remove old code
+    // current_trans_blur(ev){
+    //   this.current_trans = ev.target.textContent
+    // },
+    user_can_edit(){
+      return this.$root.user.editor
+    },
+    user_can_vote(){
+      return this.$root.user.voter
     },
     load_chapter(book_id, chapter_id){
       api(this.$root.token, '/api/sfct/get_chapter_block_trans', {chapter_id})
