@@ -20,9 +20,9 @@
                   <li role="separator" class="divider"></li>
                   <li class="dropdown-header">account</li>
                   <li><a @click="logout()">Logout</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li class="dropdown-header">debug</li>
-                  <li><a @click="cache_block_transed()">cache-block-transed</a></li>
+                  <li v-if="user.username=='0x00-pl'" role="separator" class="divider"></li>
+                  <li v-if="user.username=='0x00-pl'" class="dropdown-header">debug</li>
+                  <li v-if="user.username=='0x00-pl'"><a @click="cache_block_transed()">cache-block-transed</a></li>
                   <!--<li><a @click="add_user()">add_user</a></li>
                   <li><a @click="add_book()">add_book</a></li>
                   <li><a @click="add_chapter()">add_chapter</a></li>
