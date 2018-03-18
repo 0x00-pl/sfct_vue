@@ -36,7 +36,7 @@
                   </h3>
                 </div>
                 <div class="panel-body" :class="{hide: trans._hide}">
-                  <code class="code-box">{{trans.text}}</code>
+                  <code class="code-box pull-left">{{trans.text}}</code>
                 </div>
               </div>
             </div>
@@ -217,6 +217,7 @@ export default {
     border: 0.25rem solid lightpink;
   }
   overflow: hidden;
+
   &:hover {
     overflow: visible;
     width: 65rem;
